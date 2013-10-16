@@ -1,6 +1,6 @@
 # Mashed
 
-TODO: Write a gem description
+A Mash.
 
 ## Installation
 
@@ -18,7 +18,20 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+Mash = Mashed::Mash
+
+m = Mash.new(title: "Hello", starred: false, completed_at: nil)
+
+m.title # => "Hello"
+m.methods # => ["title", "starred", "completed_at"]
+
+tasks = Api(:tasks, :v1).get("/tasks", list_id: "inbox").json.map { |hash| Mash.new(hash) }
+
+tasks.each do |task|
+  puts tasks.title
+end
+```
 
 ## Contributing
 
