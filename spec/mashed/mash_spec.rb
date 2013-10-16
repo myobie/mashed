@@ -11,6 +11,11 @@ describe Mashed::Mash do
     it { expect(mash.methods).to eq(["a", "b", "c"]) }
   end
 
+  describe "#delete" do
+    before { mash.delete(:a) }
+    it { expect(mash.methods).to eq(["b", "c"]) }
+  end
+
   describe "#method_missing" do
     it {
       expect(mash.a).to eq(1)

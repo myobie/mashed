@@ -3,7 +3,7 @@ require 'delegate'
 module Mashed
   module ExtendHash
     def stringify
-      dup.each_with_object({}) { |(k,v), h| h[k.to_s] = v }
+      StringyHash.new(dup.each_with_object({}) { |(k,v), h| h[k.to_s] = v })
     end
   end
 
@@ -20,6 +20,10 @@ module Mashed
       super(key.to_s, value)
     end
     alias store []=
+
+    def delete(key, &blk)
+      super(key.to_s, &blk)
+    end
 
     def merge(other_hash, &blk)
       super(other_hash.stringify, &blk)

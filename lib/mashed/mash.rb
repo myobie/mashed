@@ -13,6 +13,10 @@ module Mashed
       @hash.keys
     end
 
+    def delete(key)
+      @hash.delete(key)
+    end
+
     def method_missing(symbol, *args, &blk)
       string = symbol.to_s
       if @hash.key?(string)
