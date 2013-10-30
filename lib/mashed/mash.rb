@@ -3,9 +3,17 @@ module Mashed
     def to_hash
       @hash
     end
+    alias to_h to_hash
+
+    klass = self
+    define_method(:class) { klass }
 
     def initialize(hash)
       @hash = hash.stringify
+    end
+
+    def [](key)
+      @hash[key]
     end
 
     # NOTE: this will be incompatible because the array items will be strings

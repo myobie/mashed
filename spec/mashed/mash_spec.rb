@@ -7,6 +7,10 @@ describe Mashed::Mash do
     it { expect(mash.to_hash).to eq("a" => 1, "b" => 2, "c" => 3) }
   end
 
+  describe "#class" do
+    it { expect(mash.class).to be(Mashed::Mash) }
+  end
+
   describe "#methods" do
     it { expect(mash.methods).to eq(["a", "b", "c"]) }
   end
@@ -14,6 +18,11 @@ describe Mashed::Mash do
   describe "#delete" do
     before { mash.delete(:a) }
     it { expect(mash.methods).to eq(["b", "c"]) }
+  end
+
+  describe "#[]" do
+    it { expect(mash[:a]).to eq(1) }
+    it { expect(mash["b"]).to eq(2) }
   end
 
   describe "#method_missing" do
