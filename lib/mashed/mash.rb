@@ -48,6 +48,10 @@ module Mashed
       string = symbol.to_s
       if @hash.key?(string)
         self[string]
+      elsif string =~ /\?$/
+        !!self[string[0..-2]]
+      else
+        nil
       end
     end
 

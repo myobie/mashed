@@ -43,4 +43,12 @@ describe Mashed::Mash do
     it { expect(nested.inside).to be_a(Mashed::Mash) }
     it { expect(nested.inside.of).to eq('you') }
   end
+
+  describe "query methods should return booleans" do
+    let(:grumpy) { Mashed::Mash.new(yes: "hooray", no: nil) }
+    it { expect(grumpy.yes?).to be(true) }
+    it { expect(grumpy.yes?).to_not eq("hooray") }
+    it { expect(grumpy.no?).to be(false) }
+    it { expect(grumpy.no?).to_not be_nil }
+  end
 end
