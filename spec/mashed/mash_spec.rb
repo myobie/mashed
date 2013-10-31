@@ -32,4 +32,15 @@ describe Mashed::Mash do
       expect(mash.c).to eq(3)
     }
   end
+
+  describe "wrapping itself" do
+    let(:incepted) { Mashed::Mash.new(mash) }
+    it { expect(incepted.to_hash).to be_a(Hash) }
+  end
+
+  describe "nested hashes" do
+    let(:nested) { Mashed::Mash.new(inside: { of: 'you' }) }
+    it { expect(nested.inside).to be_a(Mashed::Mash) }
+    it { expect(nested.inside.of).to eq('you') }
+  end
 end
