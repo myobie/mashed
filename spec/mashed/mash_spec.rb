@@ -11,13 +11,13 @@ describe Mashed::Mash do
     it { expect(mash.class).to be(Mashed::Mash) }
   end
 
-  describe "#methods" do
-    it { expect(mash.methods).to eq(["a", "b", "c"]) }
+  describe "#keys" do
+    it { expect(mash.keys).to eq(["a", "b", "c"]) }
   end
 
   describe "#delete" do
     before { mash.delete(:a) }
-    it { expect(mash.methods).to eq(["b", "c"]) }
+    it { expect(mash.keys).to eq(["b", "c"]) }
   end
 
   describe "#[]" do
@@ -31,6 +31,16 @@ describe Mashed::Mash do
       expect(mash.b).to eq(2)
       expect(mash.c).to eq(3)
     }
+  end
+
+  describe "#methods" do
+    it { expect(mash.methods).to include(:__send__) }
+  end
+
+  describe "respond_to?" do
+    it { expect(mash.respond_to?(:a)).to be_true }
+    it { expect(mash.respond_to?(:[])).to be_true }
+    it { expect(mash.respond_to?(:to_hash)).to be_true }
   end
 
   describe "wrapping itself" do
@@ -50,5 +60,21 @@ describe Mashed::Mash do
     it { expect(grumpy.yes?).to_not eq("hooray") }
     it { expect(grumpy.no?).to be(false) }
     it { expect(grumpy.no?).to_not be_nil }
+  end
+
+  describe "singleton methods" do
+    before {
+      def mash.something; end
+    }
+    it { expect(mash.methods).to include(:something) }
+  end
+
+  describe "#to_json" do
+    it {
+      m = double
+      expect(mash).to receive(:to_hash).and_return(m)
+      expect(m).to receive(:to_json)
+      mash.to_json
+    }
   end
 end

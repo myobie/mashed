@@ -1,9 +1,25 @@
 module Mashed
   class Mash < BasicObject
+    def singleton_method_added(symbol)
+      @singleton_methods ||= []
+      @singleton_methods << symbol
+    end
+    def singleton_method_removed(symbol)
+      @singleton_methods ||= []
+      @singleton_methods.delete symbol
+    end
+    def singleton_method_undefined(symbol)
+      singleton_method_removed(symbol)
+    end
+
     def to_hash
       @hash.to_hash
     end
     alias to_h to_hash
+
+    def to_json(*args)
+      to_hash.to_json(*args)
+    end
 
     def puts(*args)
       ::Kernel.puts(*args)
@@ -11,12 +27,14 @@ module Mashed
 
     klass = self
     define_method(:class) { klass }
+    define_method(:methods) { klass.instance_methods + @singleton_methods + keys }
 
     def self.name
       "Mashed::Mash"
     end
 
     def initialize(hash)
+      @singleton_methods ||= []
       hash = if hash.respond_to?(:to_h)
         hash.to_h
       else
@@ -35,8 +53,7 @@ module Mashed
       wrap_up @hash[key]
     end
 
-    # NOTE: this will be incompatible because the array items will be strings
-    def methods
+    def keys
       @hash.keys
     end
 
@@ -53,6 +70,10 @@ module Mashed
       else
         nil
       end
+    end
+
+    def respond_to?(symbol)
+      methods.map(&:to_s).include?(symbol.to_s)
     end
 
     def inspect
