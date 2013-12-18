@@ -12,6 +12,10 @@ module Mashed
       singleton_method_removed(symbol)
     end
 
+    def object_id
+      __id__
+    end
+
     def to_hash
       @hash.to_hash
     end
@@ -81,6 +85,14 @@ module Mashed
     end
     alias to_s inspect
 
+    def pretty_inspect
+      inspect
+    end
+
+    def pretty_print
+      inspect
+    end
+
     private
 
     def wrap_up(thing)
@@ -94,6 +106,18 @@ module Mashed
     def wrap(thing)
       if thing.respond_to?(:to_hash)
         self.class.new thing
+      else
+        thing
+      end
+    end
+
+    def unwrap(thing)
+      if thing.respond_to?(:to_hash)
+        thing.to_hash.each_with_object({}) do |(key, value), hash|
+          hash[key] = unwrap(value)
+        end
+      elsif thing.respond_to?(:to_ary)
+        thing.map { |t| unwrap(t) }
       else
         thing
       end

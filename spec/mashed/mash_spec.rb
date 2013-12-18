@@ -54,6 +54,13 @@ describe Mashed::Mash do
     it { expect(nested.inside.of).to eq('you') }
   end
 
+  describe "nested hashed #to_hash" do
+    let(:nested) { Mashed::Mash.new(inside: { of: 'you' }) }
+    let(:hash)   { nested.to_hash }
+    it { expect(hash["inside"]).to be_a(Hash) }
+    it { expect(nested["inside"]["of"]).to eq('you') }
+  end
+
   describe "query methods should return booleans" do
     let(:grumpy) { Mashed::Mash.new(yes: "hooray", no: nil) }
     it { expect(grumpy.yes?).to be(true) }
