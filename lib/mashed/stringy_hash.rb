@@ -3,7 +3,10 @@ require 'delegate'
 module Mashed
   module ExtendHash
     def stringify
-      StringyHash.new(dup.each_with_object({}) { |(k,v), h| h[k.to_s] = v })
+      StringyHash.new(dup.each_with_object({}) do |(k,v), h|
+        v = v.stringify if v.respond_to?(:stringify)
+        h[k.to_s] = v
+      end)
     end
   end
 
