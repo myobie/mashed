@@ -17,7 +17,7 @@ module Mashed
     end
 
     def to_hash
-      @hash.to_hash
+      unwrap @hash
     end
     alias to_h to_hash
 
