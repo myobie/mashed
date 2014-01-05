@@ -33,6 +33,11 @@ describe Mashed::Mash do
     }
   end
 
+  describe "#method_missing=" do
+    before { mash.test = "TEST" }
+    it { expect(mash.test).to eq("TEST") }
+  end
+
   describe "#methods" do
     it { expect(mash.methods).to include(:__send__) }
   end

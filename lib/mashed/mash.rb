@@ -12,8 +12,10 @@ module Mashed
       singleton_method_removed(symbol)
     end
 
-    def object_id
-      __id__
+    unless defined?(object_id)
+      def object_id
+        __id__
+      end
     end
 
     def to_hash
@@ -57,6 +59,11 @@ module Mashed
       wrap_up @hash[key]
     end
 
+    def []=(key, value)
+      key = key.to_s
+      @hash[key] = value
+    end
+
     def keys
       @hash.keys
     end
@@ -71,6 +78,8 @@ module Mashed
         self[string]
       elsif string =~ /\?$/
         !!self[string[0..-2]]
+      elsif string =~ /=$/
+        self[string[0..-2]] = args.first
       else
         nil
       end
