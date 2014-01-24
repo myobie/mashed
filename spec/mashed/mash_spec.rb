@@ -11,18 +11,9 @@ describe Mashed::Mash do
     it { expect(mash.class).to be(Mashed::Mash) }
   end
 
-  describe "#keys" do
-    it { expect(mash.keys).to eq(["a", "b", "c"]) }
-  end
-
   describe "#delete" do
     before { mash.delete(:a) }
-    it { expect(mash.keys).to eq(["b", "c"]) }
-  end
-
-  describe "#[]" do
-    it { expect(mash[:a]).to eq(1) }
-    it { expect(mash["b"]).to eq(2) }
+    it { expect(mash.methods).to include("b", "c") }
   end
 
   describe "#method_missing" do
@@ -44,7 +35,7 @@ describe Mashed::Mash do
 
   describe "respond_to?" do
     it { expect(mash.respond_to?(:a)).to be_true }
-    it { expect(mash.respond_to?(:[])).to be_true }
+    it { expect(mash.respond_to?(:delete)).to be_true }
     it { expect(mash.respond_to?(:to_hash)).to be_true }
   end
 
@@ -88,5 +79,16 @@ describe Mashed::Mash do
       expect(m).to receive(:to_json)
       mash.to_json
     }
+  end
+
+  context "private methods" do
+    describe "#keys" do
+      it { expect(mash.__send__(:keys)).to eq(["a", "b", "c"]) }
+    end
+
+    describe "#[]" do
+      it { expect(mash.__send__(:[],:a)).to eq(1) }
+      it { expect(mash.__send__(:[],"b")).to eq(2) }
+    end
   end
 end

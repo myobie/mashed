@@ -54,20 +54,6 @@ module Mashed
     end
     alias kind_of? is_a?
 
-    def [](key)
-      key = key.to_s
-      wrap_up @hash[key]
-    end
-
-    def []=(key, value)
-      key = key.to_s
-      @hash[key] = value
-    end
-
-    def keys
-      @hash.keys
-    end
-
     def delete(key)
       wrap_up @hash.delete(key)
     end
@@ -103,6 +89,20 @@ module Mashed
     end
 
     private
+
+    def [](key)
+      key = key.to_s
+      wrap_up @hash[key]
+    end
+
+    def []=(key, value)
+      key = key.to_s
+      @hash[key] = value
+    end
+
+    def keys
+      @hash.keys
+    end
 
     def wrap_up(thing)
       if thing.respond_to?(:to_ary)
