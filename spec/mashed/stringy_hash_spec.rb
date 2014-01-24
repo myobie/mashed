@@ -13,4 +13,14 @@ describe Mashed::StringyHash do
     it { expect(s[:a]).to eq("A") }
     it { expect(s["a"]).to eq("A") }
   end
+
+  describe "calls to_s on objects" do
+    let(:s) { hash.stringify }
+    let(:klass) {
+      Class.new do
+        def to_s; "a"; end
+      end
+    }
+    it { expect(s[klass.new]).to eq(1) }
+  end
 end

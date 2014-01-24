@@ -60,14 +60,20 @@ module Mashed
 
     def method_missing(symbol, *args, &blk)
       string = symbol.to_s
-      if @hash.key?(string)
-        self[string]
-      elsif string =~ /\?$/
-        !!self[string[0..-2]]
-      elsif string =~ /=$/
+      if blk
+        super
+      elsif args.length == 0
+        if @hash.key?(string)
+          self[string]
+        elsif string =~ /\?$/
+          !!self[string[0..-2]]
+        else
+          nil
+        end
+      elsif args.length == 1 && string =~ /=$/
         self[string[0..-2]] = args.first
       else
-        nil
+        super
       end
     end
 

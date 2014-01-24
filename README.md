@@ -33,6 +33,20 @@ tasks.each do |task|
 end
 ```
 
+### A Mash Is Not A Hash
+
+```ruby
+Mash = Mashed::Mash
+
+m = Mash.new(a: "A", b: "B")
+m.map { |key, value| puts [key, value].inspect } # => raise
+
+# assuming activesupport is present...
+
+m.with_indifferent_access # => nil
+# there is no key of "with_indifferent_access" for the internal hash
+```
+
 ## Contributing
 
 1. Fork it
@@ -40,3 +54,28 @@ end
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## StringyHash
+
+To help make the Mash work there also is a StringyHash class. It's a
+simple delegate to the normal Hash except that it tries to enforce that
+all incoming and outgoing keys are strings.
+
+### Usage
+
+```ruby
+StringyHash = Mash::StringyHash
+
+sh = StringyHash.new(title: "Hello", starred: false, completed_at: nil)
+sh.keys # => ["title", "starred", "completed_at"]
+sh[:title] # => "Hello"
+sh["title"] # => "Hello"
+
+class Title
+  def to_s
+    "title"
+  end
+end
+
+sh[Title.new] # => "Hello"
+```

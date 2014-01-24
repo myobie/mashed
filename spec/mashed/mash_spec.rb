@@ -22,6 +22,18 @@ describe Mashed::Mash do
       expect(mash.b).to eq(2)
       expect(mash.c).to eq(3)
     }
+
+    context "for actual missing keys" do
+      it { expect(mash.d).to be_nil }
+    end
+
+    context "for methods with an arity > 0 that are not setters" do
+      it { expect { mash.something(1) }.to raise_error(StandardError) }
+    end
+
+    context "for methods with block" do
+      it { expect { mash.map { |k,v| [k,v] } }.to raise_error(StandardError) }
+    end
   end
 
   describe "#method_missing=" do
