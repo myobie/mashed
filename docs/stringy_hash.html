@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>stringy_hash.rb</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="mash.html">
+                mash.rb
+              </a>
+            
+              
+              <a class="source" href="stringy_hash.html">
+                stringy_hash.rb
+              </a>
+            
+              
+              <a class="source" href="version.html">
+                version.rb
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>stringy_hash.rb</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">require</span> <span class="hljs-string">'delegate'</span>
+
+<span class="hljs-class"><span class="hljs-keyword">module</span> <span class="hljs-title">Mashed</span></span>
+  <span class="hljs-class"><span class="hljs-keyword">module</span> <span class="hljs-title">ExtendHash</span></span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> </span>stringify
+      <span class="hljs-constant">StringyHash</span>.new(dup.each_with_object({}) <span class="hljs-keyword">do</span> |(k,v), h|
+        v = v.stringify <span class="hljs-keyword">if</span> v.respond_to?(<span class="hljs-symbol">:stringify</span>)
+        h[k.to_s] = v
+      <span class="hljs-keyword">end</span>)
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span>
+
+  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StringyHash</span> <span class="hljs-inheritance">&lt; <span class="hljs-parent">SimpleDelegator</span></span></span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> </span>stringify
+      dup
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> </span>[](key)
+      <span class="hljs-keyword">super</span>(key.to_s)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> </span>[]=(key, value)
+      <span class="hljs-keyword">super</span>(key.to_s, value)
+    <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">alias</span> store []=
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> </span>delete(key, &amp;blk)
+      <span class="hljs-keyword">super</span>(key.to_s, &amp;blk)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> </span>merge(other_hash, &amp;blk)
+      <span class="hljs-keyword">super</span>(other_hash.stringify, &amp;blk)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> </span>merge!(other_hash, &amp;blk)
+      <span class="hljs-keyword">super</span>(other_hash.stringify, &amp;blk)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> </span>replace(other_hash, &amp;blk)
+      <span class="hljs-keyword">super</span>(other_hash.stringify, &amp;blk)
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> </span>update(other_hash, &amp;blk)
+      <span class="hljs-keyword">super</span>(other_hash.stringify, &amp;blk)
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-constant">Hash</span>.send <span class="hljs-symbol">:include</span>, <span class="hljs-constant">Mashed::ExtendHash</span></pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
