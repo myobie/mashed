@@ -10,7 +10,7 @@ describe Mashed::Mash do
 
   describe "#merge!" do
     let(:other_mash) { Mashed::Mash.new(d: 4) }
-    it { expect(mash.merge(other_mash).to_hash).to include("d" => 4) }
+    it { expect(mash.merge!(other_mash).to_hash).to include("d" => 4) }
   end
 
   describe "#to_hash" do
