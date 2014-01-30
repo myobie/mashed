@@ -3,6 +3,16 @@ require "spec_helper"
 describe Mashed::Mash do
   let(:mash) { Mashed::Mash.new(a: 1, b: 2, c: 3) }
 
+  describe "#merge" do
+    let(:other_mash) { Mashed::Mash.new(d: 4) }
+    it { expect(mash.merge(other_mash).to_hash).to include("d" => 4) }
+  end
+
+  describe "#merge!" do
+    let(:other_mash) { Mashed::Mash.new(d: 4) }
+    it { expect(mash.merge(other_mash).to_hash).to include("d" => 4) }
+  end
+
   describe "#to_hash" do
     it { expect(mash.to_hash).to eq("a" => 1, "b" => 2, "c" => 3) }
   end
