@@ -86,11 +86,12 @@ module Mashed
     end
     alias to_s inspect
 
-    def pretty_inspect
+    # I hate pry
+    def pretty_inspect(*)
       inspect
     end
 
-    def pretty_print
+    def pretty_print(*)
       inspect
     end
 
