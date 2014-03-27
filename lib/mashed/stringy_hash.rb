@@ -1,16 +1,19 @@
 require 'delegate'
 
 module Mashed
-  module ExtendHash
-    def stringify
-      StringyHash.new(dup.each_with_object({}) do |(k,v), h|
-        v = v.stringify if v.respond_to?(:stringify)
-        h[k.to_s] = v
-      end)
-    end
-  end
-
   class StringyHash < SimpleDelegator
+    def self.stringify(object)
+      if object.is_a?(Array)
+        object.map { |value| StringyHash.stringify(value) }
+      elsif object.is_a?(Hash)
+        StringyHash.new(object.each_with_object({}) do |(k,v), h|
+          h[k.to_s] = StringyHash.stringify(v)
+        end)
+      else
+        object
+      end
+    end
+
     def stringify
       dup
     end
@@ -45,5 +48,3 @@ module Mashed
     end
   end
 end
-
-Hash.send :include, Mashed::ExtendHash

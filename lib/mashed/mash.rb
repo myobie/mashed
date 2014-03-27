@@ -1,3 +1,5 @@
+require "mashed/stringy_hash"
+
 module Mashed
   class Mash < BasicObject
     def singleton_method_added(symbol)
@@ -46,7 +48,7 @@ module Mashed
       else
         hash.to_hash
       end
-      @hash = hash.stringify
+      @hash = StringyHash.stringify(hash)
     end
 
     def is_a?(other)

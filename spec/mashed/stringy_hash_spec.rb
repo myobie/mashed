@@ -1,21 +1,32 @@
 require "spec_helper"
 
 describe Mashed::StringyHash do
-  let(:hash) {{ a: 1, b: 2, c: { three: 3 }}}
+  let(:hash) {{ a: 1, b: 2, c: { three: 3 }, d: [:e, { f: 4 }]}}
 
-  describe "#stringify" do
-    it { expect(hash.stringify).to eq("a" => 1, "b" => 2, "c" => { "three" => 3 }) }
+  def stringify
+    Mashed::StringyHash.stringify(hash)
+  end
+
+  describe ".stringify" do
+    it {
+      expect(stringify).to eq({
+        "a" => 1,
+        "b" => 2,
+        "c" => { "three" => 3 },
+        "d" => [:e, { "f" => 4 }]
+      })
+    }
   end
 
   describe "get and set" do
-    let(:s) { hash.stringify }
+    let(:s) { stringify }
     before { s[:a] = "A" }
     it { expect(s[:a]).to eq("A") }
     it { expect(s["a"]).to eq("A") }
   end
 
   describe "calls to_s on objects" do
-    let(:s) { hash.stringify }
+    let(:s) { stringify }
     let(:klass) {
       Class.new do
         def to_s; "a"; end
