@@ -23,6 +23,8 @@ describe Mashed::StringyHash do
     before { s[:a] = "A" }
     it { expect(s[:a]).to eq("A") }
     it { expect(s["a"]).to eq("A") }
+    it { expect(s.key?(:a)).to be_true }
+    it { expect(s.key?("a")).to be_true }
   end
 
   describe "calls to_s on objects" do

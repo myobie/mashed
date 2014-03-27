@@ -27,6 +27,10 @@ module Mashed
     end
     alias store []=
 
+    def key?(key)
+      super(key.to_s)
+    end
+
     def delete(key, &blk)
       super(key.to_s, &blk)
     end
