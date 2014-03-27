@@ -47,6 +47,18 @@ m.with_indifferent_access # => nil
 # there is no key of "with_indifferent_access" for the internal hash
 ```
 
+### There is also a StringyHash
+
+```ruby
+h = StringyHash.stringify(a: "A", b: "B")
+
+h["a"] === h[:a] # => true
+
+h[:something_new] = "foo"
+h.key?(:something_new) # => true
+h.key?("something_new") # => true
+```
+
 ## Contributing
 
 1. Fork it
