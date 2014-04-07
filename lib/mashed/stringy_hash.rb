@@ -36,19 +36,19 @@ module Mashed
     end
 
     def merge(other_hash, &blk)
-      super(other_hash.stringify, &blk)
+      super(self.class.stringify(other_hash), &blk)
     end
 
     def merge!(other_hash, &blk)
-      super(other_hash.stringify, &blk)
+      super(self.class.stringify(other_hash), &blk)
     end
 
     def replace(other_hash, &blk)
-      super(other_hash.stringify, &blk)
+      super(self.class.stringify(other_hash), &blk)
     end
 
     def update(other_hash, &blk)
-      super(other_hash.stringify, &blk)
+      super(self.class.stringify(other_hash), &blk)
     end
   end
 end

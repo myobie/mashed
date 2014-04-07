@@ -36,4 +36,8 @@ describe Mashed::StringyHash do
     }
     it { expect(s[klass.new]).to eq(1) }
   end
+
+  describe "#merge" do
+    it { expect(stringify.merge({hello: "world"})).to include("hello"=>"world") }
+  end
 end
