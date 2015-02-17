@@ -46,9 +46,9 @@ describe Mashed::Mash do
   end
 
   describe "respond_to?" do
-    it { expect(mash.respond_to?(:a)).to be_true }
-    it { expect(mash.respond_to?(:delete)).to be_true }
-    it { expect(mash.respond_to?(:to_hash)).to be_true }
+    it { expect(mash.respond_to?(:a)).to be(true) }
+    it { expect(mash.respond_to?(:delete)).to be(true) }
+    it { expect(mash.respond_to?(:to_hash)).to be(true) }
   end
 
   describe "wrapping itself" do
