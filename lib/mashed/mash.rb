@@ -20,6 +20,14 @@ module Mashed
       end
     end
 
+    def merge(other_mash)
+     self.class.new @hash.merge(other_mash.to_hash)
+    end
+
+    def merge!(other_mash)
+      @hash.merge!(other_mash.to_hash)
+    end
+
     def to_hash
       unwrap @hash
     end
